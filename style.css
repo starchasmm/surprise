@@ -1,0 +1,103 @@
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fdf6f0;
+  font-family: 'Seogue UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.heart {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-45deg);
+  width: 40px;
+  height: 40px;
+  background-color: red;
+  animation: pulseFloatGlow 2s ease-in-out infinite;
+}
+
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -20px;
+  left: 0;
+}
+
+.heart::after {
+  top: 0;
+  left: 20px;
+}
+
+@keyframes pulseFloatGlow {
+  0% {
+    transform: translateX(-50%) translateY(0) rotate(-45deg) scale(1);
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+  }
+  25% {
+    transform: translateX(-50%) translateY(-5px) rotate(-45deg) scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+  }
+  50% {
+    transform: translateX(-50%) translateY(0) rotate(-45deg) scale(1.2);
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
+  }
+  75% {
+    transform: translateX(-50%) translateY(5px) rotate(-45deg) scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0) rotate(-45deg) scale(1);
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+  }
+
+}
+.note-box {
+  background: #fff8dc;
+  padding: 30px 60px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+#note {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #333;
+}
+
+#playlist {
+  width: 300px;
+  height: 350px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+#noteButton {
+  padding: 12px 24px;
+  background: #2d2d2d;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#noteButton:hover {
+  background: #444;
+}
