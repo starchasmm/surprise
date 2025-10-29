@@ -58,10 +58,22 @@
 
     <!-- MESSAGE SECTION -->
     <section id="message" class="panel" role="region" aria-labelledby="tab-message">
-      <div class="message-wrapper">
-        <div class="message-inner" id="messageBox" tabindex="0">
-          <!-- Typewriter text will be inserted here on first click -->
+      <div id="message-section" class="message-wrapper">
+        <div class="message-inner">
+          <div id="messageText" class="message-text" tabindex="0">
+            <!-- Paragraphs will be typed here -->
+          </div>
         </div>
+
+        <!-- Heart signature (Option C, right-aligned) -->
+        <div id="heartSignature" class="heart-signature" aria-hidden="true">
+          <!-- SVG doodle heart (CSS-animated pulse) -->
+          <svg class="signature-heart" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M60 102 C20 78, 6 54, 22 36 C36 20, 56 22, 60 36 C64 22, 84 20, 98 36 C114 54,100 78,60 102 Z"
+              fill="#ff6b81" stroke="#ff5870" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
       </div>
     </section>
   </main>
