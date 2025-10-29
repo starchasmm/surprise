@@ -108,7 +108,7 @@ function revealMessageTab(){
 const messageContent = `
     Marj, there's something I've been meaning to tell you. Back when we talked after graduation, we called it closure, but to me it never really felt like goodbye. It felt more like I was giving myself time to grow - to learn what it means to love someone deeply and genuinely.
     Somewhere along the years, I realized that no matter how far I went, you never really left my thoughts. You became this quiet standard my heart kept - something I didn't even notice at first. Every now and then, a random thing - a song, a place, a joke - pulls me back to our high school days, to those small, ordinary moments that ended up meaning everything to me.
-    Lately, I've come to understand something I didn't before: maybe back then, I really did have a chance - a small, fragile one that I was too unsure to reach for. Thinking about that now feels heavy, like a gentle ache that makes me wish I'd just pushed a little more, been a little braver
+    Lately, I've come to understand something I didn't before: maybe back then, I really did have a chance - a small, fragile one that I was too unsure to reach for. Thinking about that now feels heavy, like a gentle ache that makes me wish I'd just pushed a little more, been a little braver.
     You've become my Multo, haunting me - not in a way that hurts, but in a way that reminds me of what love once felt like when it was pure and real. And that memory has stayed, no matter how much I tried to move forward.
     I regret not pursuing you more, not standing by the loyalty I gave you, not giving my feelings the chance they deserved. I can't change the past, but I've grown since then, and I want to make things right, even if it's just through honesty.
     Honestly, seeing you on a random Saturday afternoon was like a shipwreck for me, as it made me remember every single emotion I've felt while falling in love with you during those years. And just the other day/week, we spoke up to each other just even for a tiny bit, And it dawned on me - I remember this warmth. I've been longing this kind of comfort for so long. And you still have it. I still have it for you.
@@ -242,3 +242,4 @@ document.addEventListener('DOMContentLoaded', ()=> {
   // spawn a few hearts already for nicer initial look:
   for(let i=0;i<4;i++) setTimeout(spawnHeart, i*220);
 });
+
