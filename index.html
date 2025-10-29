@@ -1,26 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday, Marjorie!</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div class="note-box">
-      <p id="note">Click the button the reveal a note</p>
-      
-      <iframe
-        src="https://open.spotify.com/embed/playlist/5wwmI5XFQzzU3eelerKgME"
-        id="playlist"
-        frameborder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy">
-      </iframe>
-      
-      <button id="noteButton">Reveal Note</button>
-    </div>
-    
-    <script src="script.js"></script>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday, Marj</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Floating hearts container -->
+  <div id="hearts" aria-hidden="true"></div>
+
+  <!-- Top navigation (side-by-side, centered) -->
+  <header class="topbar" role="navigation" aria-label="Main navigation">
+    <nav>
+      <button id="tab-home" class="tab active" aria-controls="home" aria-selected="true">HOME</button>
+      <button id="tab-message" class="tab" aria-controls="message" aria-selected="false">MESSAGE</button>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <!-- HOME SECTION -->
+    <section id="home" class="panel active" role="region" aria-labelledby="tab-home">
+      <div class="card letter-card">
+
+        <div class="left">
+          <div class="heart-anim" aria-hidden="true">
+            <div class="heart-shape"></div>
+          </div>
+
+          <h1 class="title">Happy Birthday, Marj!</h1>
+
+          <div class="notes-area" aria-live="polite">
+            <p id="noteText" class="note-placeholder">Click the button to reveal a note</p>
+          </div>
+
+          <div class="controls">
+            <button id="revealBtn" class="btn primary">Reveal Note</button>
+          </div>
+        </div>
+
+        <aside class="right">
+          <div class="playlist-container" aria-hidden="false">
+            <iframe
+              src="https://open.spotify.com/embed/playlist/5wwmI5XFQzzU3eelerKgME?utm_source=generator"
+              frameborder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"></iframe>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- MESSAGE SECTION -->
+    <section id="message" class="panel" role="region" aria-labelledby="tab-message">
+      <div class="message-wrapper">
+        <div class="message-inner" id="messageBox" tabindex="0">
+          <!-- Typewriter text will be inserted here on first click -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
 </html>
