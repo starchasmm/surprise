@@ -1,23 +1,19 @@
-/* ----------------------------
-   Base / Theme (Soft Pink)
-   ---------------------------- */
 :root{
-  --bg: #fff5f4;         /* page background */
-  --card: #fff2f2;       /* letter/card background */
-  --accent: #ff8fa3;     /* main accent (button / heart) */
-  --muted: #8b6b6b;      /* secondary text */
-  --text: #2a2a2a;       /* primary text */
+  --bg: #fff5f4;
+  --card: #fff2f2;
+  --accent: #ff8fa3;
+  --muted: #8b6b6b;
+  --text: #2a2a2a;
   --shadow: rgba(15,15,15,0.12);
   --maxwidth: 1100px;
   --poppins: 'Poppins', sans-serif;
 
-  /* Pastel rainbow PR2 (balanced) */
   --pr-1: #ffd6e0;
   --pr-2: #ffd9f0;
   --pr-3: #e6e6ff;
   --pr-4: #d6f7ff;
   --pr-5: #e8ffe6;
-  --blush: rgba(255,111,133,0.14); /* P1: Blush Pink soft */
+  --blush: rgba(255,111,133,0.14);
 }
 
 *{box-sizing:border-box}
@@ -27,14 +23,12 @@ body{
   font-family:var(--poppins);
   background:var(--bg);
   color:var(--text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
   display:flex;
   flex-direction:column;
   align-items:center;
 }
 
-/* Top nav - centered side-by-side tabs (N1) */
+/* Top nav */
 .topbar{
   width:100%;
   display:flex;
@@ -42,12 +36,9 @@ body{
   padding:18px 10px 6px;
   z-index:20;
 }
-.topbar nav{
-  display:flex;
-  gap:14px;
-}
+.topbar nav{ display:flex; gap:14px; }
 
-/* Base tab style: black background, white text, pill shape (S1) */
+/* Tabs: black background, white text (inactive). Active tab: pastel capsule glow + blush aura, text becomes black */
 .tab{
   background:#000;
   color:#fff;
@@ -62,22 +53,21 @@ body{
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
-/* Inactive subtle state */
-.tab:not(.active){
-  opacity:0.92;
-  transform: none;
-}
+/* Hidden message tab initially */
+#tab-message { display: none; }
 
-.tab.active {
-  color: black; /* Change text color to black */
-  z-index: 5;
+/* Active tab styling */
+.tab.active{
+  z-index:5;
+  color: black; /* as requested: black text for highlighted */
   box-shadow: 0 8px 32px rgba(255,111,133,0.09), 0 4px 12px rgba(0,0,0,0.06);
 }
 
-.tab.active::before {
+/* Pastel capsule behind active tab */
+.tab.active::before{
   content: "";
   position: absolute;
-  inset: -6px; /* expands outwards to create a border/glow */
+  inset: -6px;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--pr-1), var(--pr-2), var(--pr-3), var(--pr-4), var(--pr-5));
   filter: blur(8px);
@@ -86,26 +76,16 @@ body{
   transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
-
-/* subtle inner blush aura using box-shadow on the active tab */
-.tab.active {
-  box-shadow: 0 8px 32px rgba(255,111,133,0.09), 0 4px 12px rgba(0,0,0,0.06);
-}
-
-/* When reveal pulse class is applied, animate the pseudo-element for the R2 effect */
-.tab.reveal-pulse::before{
-  animation: revealPulse 1.05s ease forwards;
-}
-
-/* small keyframe for the reveal pulse (gentle scale + opacity flicker) */
-@keyframes revealPulse {
+/* pulse reveal class */
+.tab.reveal-pulse::before{ animation: revealPulse 1.05s ease forwards; }
+@keyframes revealPulse{
   0% { transform: scale(0.96); opacity:0; }
   35% { transform: scale(1.06); opacity:1; }
   65% { transform: scale(1.02); opacity:0.95; }
-  100% { transform: scale(1); opacity:0.95; }
+  100%{ transform: scale(1); opacity:0.95; }
 }
 
-/* Main wrapper */
+/* layout */
 .wrap{
   width:100%;
   max-width:var(--maxwidth);
@@ -114,11 +94,11 @@ body{
   justify-content:center;
 }
 
-/* Panel styles */
+/* panels */
 .panel{display:none; width:100%}
 .panel.active{display:block}
 
-/* Letter Card (Home) */
+/* letter card */
 .letter-card{
   width:100%;
   background:var(--card);
@@ -130,161 +110,84 @@ body{
   grid-template-columns: 1fr 360px;
   gap:22px;
   align-items:start;
+}
+
+/* left column */
+.left{ display: flex; flex-direction: column; align-items: center; }
+.heart-anim{ width:100%; height:40px; margin-bottom:8px; display:flex; align-items:center; justify-content: center; }
+.heart-shape{ width:36px; height:36px; border-radius:6px; background:var(--accent); transform:rotate(-45deg); position:relative; margin: 0; }
+.heart-shape::before,
+.heart-shape::after{ content:""; position:absolute; background:var(--accent); width:36px;height:36px;border-radius:50%; }
+.heart-shape::before{ top:-18px; left:0 } .heart-shape::after{ left:18px; top:0 }
+.heart-shape{ animation: gentle-beat 3s infinite; } @keyframes gentle-beat{ 0%,100%{ transform: rotate(-45deg) scale(1) } 50%{ transform: rotate(-45deg) scale(1.06) } }
+
+/* title */
+.title{ font-size:44px; margin:6px 0 18px 0; line-height:1.02; font-weight:700; color:var(--text); }
+
+/* notes area */
+.notes-area{ min-height:90px; display:flex; align-items:center; }
+.note-placeholder{ font-size:20px; color:var(--muted); margin:0; }
+
+/* controls */
+.controls{ margin-top:16px; }
+.btn{ padding:10px 18px; border-radius:8px; border:1px solid rgba(0,0,0,0.06); font-size:16px; cursor:pointer; }
+.btn.primary{ background:var(--accent); color:#fff; border:none; box-shadow:0 8px 24px rgba(255,140,156,0.12); }
+
+/* playlist */
+.playlist-container{ width:100%; height:360px; border-radius:10px; overflow:hidden; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); box-shadow:0 6px 18px rgba(0,0,0,0.06); }
+.playlist-container iframe{ width:100%; height:100%; border:0; }
+
+/* MESSAGE area - letter style */
+.message-wrapper{ width:100%; display:flex; justify-content:flex-end; padding:40px 10px; gap:20px; align-items:flex-start; }
+.message-inner{ width:100%; max-width:820px; min-height:300px; background:rgba(255,255,255,0.6); border-radius:10px; padding:28px; border:1px solid rgba(0,0,0,0.04); box-shadow:0 10px 30px rgba(0,0,0,0.05); font-size:20px; line-height:1.6; color:var(--text); position:relative; overflow:hidden; }
+
+/* message text container (scrollable) */
+.message-text{
+  max-height:520px;   /* adjust as you prefer */
+  overflow-y:auto;
+  padding-right:12px; /* space for scrollbar */
+  white-space:pre-wrap;
+}
+
+/* paragraphs inside message */
+.message-text p{ margin:0 0 1rem 0; }
+
+/* heart signature (right-aligned) */
+
+.heart-signature{
+  width:100%;
+  display:flex;
+  justify-content:center; /* right-aligned */
+  align-items:center;
+  margin-right:20px;
+  opacity:0;
+  transform: translateY(8px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+/* when show class applied, reveal */
+.heart-signature.show{
+  opacity:1;
   transform: translateY(0);
 }
 
-/* Left column */
-.left{
-  padding:0 8px 8px 8px;
-}
-.heart-anim{
-  width:40px; height:40px; margin-bottom:8px;
-  display:flex; align-items:center;
-}
-.heart-shape{
-  width:36px;height:36px;border-radius:6px; background:var(--accent);
-  transform:rotate(-45deg);
-  position:relative;
-}
-.heart-shape::before,
-.heart-shape::after{
-  content:""; position:absolute; background:var(--accent);
-  width:36px;height:36px;border-radius:50%;
-}
-.heart-shape::before{ top:-18px; left:0}
-.heart-shape::after{ left:18px; top:0}
-.heart-shape{ animation: gentle-beat 3s infinite; }
-@keyframes gentle-beat{
-  0%,100%{ transform: rotate(-45deg) scale(1) }
-  50%{ transform: rotate(-45deg) scale(1.06) }
-}
+/* signature SVG sizing */
+.signature-heart{ width:76px; height:76px; display:block; }
 
-/* Title */
-.title{
-  font-size:44px;
-  margin:6px 0 18px 0;
-  line-height:1.02;
-  font-weight:700;
-  color:var(--text);
+/* H3 continuous slow pulse for the heart */
+@keyframes slow-pulse {
+  0% { transform: scale(1); filter: drop-shadow(0 6px 16px rgba(255,110,140,0.06)); }
+  50% { transform: scale(1.06); filter: drop-shadow(0 10px 24px rgba(255,110,140,0.12)); }
+  100% { transform: scale(1); filter: drop-shadow(0 6px 16px rgba(255,110,140,0.06)); }
 }
+.signature-heart { animation: slow-pulse 2.2s ease-in-out infinite; transform-origin:center; }
 
-/* Notes area */
-.notes-area{
-  background:transparent;
-  min-height:90px;
-  display:flex;
-  align-items:center;
-}
-.note-placeholder{
-  font-size:20px;
-  color:var(--muted);
-  margin:0;
-}
+/* Floating hearts */
+#hearts{ pointer-events:none; position:fixed; inset:0; z-index:0; overflow:hidden; }
+.heart-float{ position:absolute; font-size:18px; color:var(--accent); opacity:0.9; transform:translateY(0) scale(1); animation: floatUp 6s linear forwards; filter:drop-shadow(0 8px 18px rgba(0,0,0,0.06)); }
+@keyframes floatUp{ 0%{ transform:translateY(20px) scale(0.9); opacity:0.9 } 50%{ opacity:0.9 } 100%{ transform:translateY(-420px) scale(1.25); opacity:0.02 } }
 
-/* Controls */
-.controls{ margin-top:16px; }
-.btn{
-  padding:10px 18px;
-  border-radius:8px;
-  border:1px solid rgba(0,0,0,0.06);
-  font-size:16px;
-  cursor:pointer;
-}
-.btn.primary{
-  background:var(--accent); color:#fff; border:none; box-shadow:0 8px 24px rgba(255,140,156,0.12);
-}
-
-/* Playlist container (right) */
-.playlist-container{
-  width:100%; height:360px; border-radius:10px; overflow:hidden;
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
-  box-shadow:0 6px 18px rgba(0,0,0,0.06);
-}
-.playlist-container iframe{
-  width:100%; height:100%; border:0;
-}
-
-/* MESSAGE page styles: letter-style box narrow */
-.message-wrapper{
-  width:100%;
-  display:flex;
-  justify-content:center;
-  padding:40px 10px;
-}
-.message-inner {
-  width: 80%;
-  max-width: 820px;
-  min-height: 300px;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 10px;
-  padding: 28px;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  font-size: 20px;
-  line-height: 1.6;
-  color: var(--text);
-  overflow-y: auto;  /* Enable scrolling when content exceeds */
-  max-height: 500px;  /* You can adjust this value to control the height */
-  position: relative;  /* for heart placement */
-}
-
-/* Floating hearts container - moderate intensity */
-#hearts{
-  pointer-events:none;
-  position:fixed;
-  inset:0;
-  z-index:0;
-  overflow:hidden;
-}
-.heart-float{
-  position:absolute;
-  font-size:18px;
-  color:var(--accent);
-  opacity:0.9;
-  transform:translateY(0) scale(1);
-  animation: floatUp 6s linear forwards;
-  filter:drop-shadow(0 8px 18px rgba(0,0,0,0.06));
-}
-@keyframes floatUp{
-  0%{ transform:translateY(20px) scale(0.9); opacity:0.9 }
-  50%{ opacity:0.9 }
-  100%{ transform:translateY(-420px) scale(1.25); opacity:0.02 }
-}
-
-/* Hide Message tab initially (revealed via JS) */
-#tab-message {
-  display: none;
-}
-
-/* Message glow and doodle heart CSS (from previous plan) */
-.message-glow {
-  box-shadow: 0 12px 40px rgba(255,110,140,0.14), 0 2px 8px rgba(0,0,0,0.06);
-  transition: box-shadow 0.6s ease;
-}
-
-.doodle-heart-wrap {
-  width: 82px;
-  height: 82px;
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
-  transform-origin: center;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.45s ease, transform 0.45s ease;
-}
-
-.doodle-heart-done {
-  opacity: 1;
-  transform: scale(1.04);
-  transition: transform 0.35s cubic-bezier(.2,.9,.3,1), opacity 0.35s ease;
-}
-
-.doodle-heart {
-  filter: drop-shadow(0 6px 18px rgba(255,110,140,0.12));
-}
-
-/* responsive tweaks */
+/* responsive */
 @media (max-width:980px){
   .letter-card{ grid-template-columns: 1fr; }
   .playlist-container{ height:260px; order:3; }
@@ -293,6 +196,8 @@ body{
   .title{ font-size:32px; text-align:center; }
   .note-placeholder{ font-size:18px; text-align:center; }
   .message-inner{ width:94%; font-size:18px; }
+  .message-wrapper{ justify-content:center; align-items:flex-start; flex-direction:column; gap:12px; }
+  .heart-signature{ justify-content:center; margin-right:0; }
 }
 
 @media (max-width:520px){
@@ -300,4 +205,5 @@ body{
   .playlist-container{ height:220px; }
   .note-placeholder{ font-size:16px; }
   .message-inner{ font-size:16px; padding:20px }
+  .signature-heart{ width:56px; height:56px; }
 }
