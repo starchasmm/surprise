@@ -2,13 +2,11 @@
    Notes (sequential)
    =========================== */
 const notes = [
-  "Happy Birthday, Marj!",
-  "I hope for the best for your future endeavors.",
-  "Keep pushing to realize your dreams!",
-  "I'll always be here cheering for you!",
-  "But, can I borrow some of your time?",
-  "This won't take long.",
-  "Press the Message tab."
+  "I don’t need you to take my love or even return it.",
+  "I just want you to know it exists — quietly, stubbornly, still beating for you.",
+  "If it ever burdens you, you can forget it.",
+  "If it ever warms you, then that’s enough for me.",
+  "I’ll keep loving you, not to be chosen, but because loving you feels like the most honest thing I’ve ever done."
 ];
 
 let currentIndex = 0;
@@ -24,15 +22,12 @@ if (!btn || !noteText || !tabMsg) {
 }
 
 /* ------------------------------
-   Tab navigation (Home / Message)
-   - Message tab is hidden initially via CSS (#tab-message { display:none; })
-   - Only reveal it after notes exhausted.
+   Tab navigation
    ------------------------------ */
 function showPanel(which){
   if(which === 'home'){
     tabHome.classList.add('active'); tabMsg.classList.remove('active');
     panelHome.classList.add('active'); panelMsg.classList.remove('active');
-    // ensure aria states
     tabHome.setAttribute('aria-selected','true');
     tabMsg.setAttribute('aria-selected','false');
   } else {
@@ -40,69 +35,53 @@ function showPanel(which){
     panelMsg.classList.add('active'); panelHome.classList.remove('active');
     tabMsg.setAttribute('aria-selected','true');
     tabHome.setAttribute('aria-selected','false');
-    // don't auto-run typewriter here — handled on first click
   }
 }
-
 tabHome.addEventListener('click', ()=> showPanel('home'));
 
-/* Attach tabMsg click below (only want to run the typewriter on FIRST real click.) */
+/* Only run typewriter on first click of message tab */
 let firstMessageOpen = false;
 tabMsg.addEventListener('click', () => {
   showPanel('message');
   if(!firstMessageOpen){
     firstMessageOpen = true;
-    runTypewriterIfNeeded(); // runs typewriter on first click only
+    runTypewriterIfNeeded();
   }
 });
 
-/* ------------------------------
-   Reveal notes button behavior
-   - sequential, non-looping. When finished: disable button, reveal Message tab
-   ------------------------------ */
+/* Reveal notes button */
 btn.addEventListener('click', () => {
   if (currentIndex < notes.length) {
     noteText.textContent = notes[currentIndex];
     currentIndex++;
-
     if (currentIndex >= notes.length) {
-      // Done with notes
       btn.disabled = true;
       btn.textContent = "No more notes";
       btn.classList.remove('primary');
       btn.style.opacity = 0.85;
-
-      // Reveal Message tab and give gentle animation
       revealMessageTab();
     }
   }
 });
 
 function revealMessageTab(){
-  // Make tab visible
   tabMsg.style.display = "inline-block";
-  tabMsg.style.opacity = 0; // start transparent
+  tabMsg.style.opacity = 0;
   tabMsg.style.transform = "translateY(-6px)";
-  // small delay to allow layout
   requestAnimationFrame(()=> {
     tabMsg.style.transition = "opacity 0.55s ease, transform 0.55s ease";
     tabMsg.style.opacity = 1;
     tabMsg.style.transform = "translateY(0)";
-    // apply a gentle reveal pulse: add class that animates pseudo-element
     tabMsg.classList.add('reveal-pulse');
-    // remove pulse class after animation completes
-    setTimeout(()=> {
-      tabMsg.classList.remove('reveal-pulse');
-    }, 1200);
+    setTimeout(()=> { tabMsg.classList.remove('reveal-pulse'); }, 1200);
   });
 }
 
 /* ------------------------------
-   Typewriter logic
-   - Runs only first time user clicks Message tab
-   - S2 speed ~45 ms / char
-   - After finish: show glow + draw-on hand-drawn heart (T2 thickness)
-   - Stores 'messageShown' in localStorage so it won't re-type
+   Typewriter (paragraph-by-paragraph)
+   - Splits messageContent on double-newline (\n\n)
+   - Types each paragraph into a <p> element inside #messageText
+   - S2 speed ~45ms per char, with longer pause on paragraph end
    ------------------------------ */
 
 const messageContent = `
@@ -116,95 +95,72 @@ const messageContent = `
     If you don't feel the same, I'll understand. You don't owe me anything. I feel pathetic for being this way, and I'm sorry. Just know that I'll still be one of your closest firends that you can lean on. I just needed you to know this, because pretending otherwise would be lying to myself.
   `;
 
-// typing speed S2 = 45 ms per character
+// paragraph split (double newlines create paragraphs)
+const paragraphs = messageContent.split(/\n\s*\n/).map(p => p.trim()).filter(p => p.length > 0);
 const TYPE_SPEED = 45;
-let typewriterRunning = false;
+const messageContainer = document.getElementById('messageText');
+let typingInProgress = false;
 
-function typeWriter(el, text, speed=TYPE_SPEED, callback){
-  el.textContent = '';
+function typeParagraphs(pars, idx = 0){
+  if (!messageContainer) return;
+  if(idx >= pars.length){
+    // finished typing all paragraphs
+    localStorage.setItem('messageShown','1');
+    // reveal heart signature
+    showHeartSignature();
+    return;
+  }
+
+  const p = document.createElement('p');
+  messageContainer.appendChild(p);
+  const text = pars[idx];
   let i = 0;
-  typewriterRunning = true;
-  function step(){
+
+  function typeChar(){
     if(i < text.length){
-      el.textContent += text[i++];
-      // preserve whitespace/newline rendering in the box:
-      if(text[i-1] === '\n') {
-        // small pause at newlines for emotional pacing
-        setTimeout(step, speed * 8);
-      } else {
-        setTimeout(step, speed);
-      }
+      p.textContent += text[i++];
+      // small pause at commas/periods can be simulated
+      let delay = TYPE_SPEED;
+      if(text[i-1] === ',' || text[i-1] === ';') delay = TYPE_SPEED * 1.3;
+      if(text[i-1] === '.' || text[i-1] === '!' || text[i-1] === '?') delay = TYPE_SPEED * 1.9;
+      setTimeout(typeChar, delay);
     } else {
-      typewriterRunning = false;
-      if(callback) callback();
+      // paragraph finished — small pause then type next paragraph
+      setTimeout(()=> typeParagraphs(pars, idx + 1), 700);
     }
   }
-  step();
+  typeChar();
 }
 
 function runTypewriterIfNeeded(){
-  const el = document.getElementById('messageBox');
+  if(!messageContainer) return;
   const shown = localStorage.getItem('messageShown');
-
+  // if not shown, run the paragraph typing
   if(!shown){
-    // run typewriter
-    el.textContent = "";
-    // ensure scroll to top
-    el.scrollTop = 0;
-    typeWriter(el, messageContent, TYPE_SPEED, ()=> {
-      localStorage.setItem('messageShown','1');
-      // small delay then show glow + heart
-      setTimeout(()=> {
-        showGlowAndHandDrawnHeart();
-      }, 350);
-    });
+    messageContainer.innerHTML = ""; // clear
+    typeParagraphs(paragraphs, 0);
   } else {
-    // already shown before — just insert the full text statically
-    el.textContent = messageContent;
+    // already shown — render static paragraphs
+    messageContainer.innerHTML = paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('');
+    // also ensure heart is visible if it had been shown previously
+    const heart = document.getElementById('heartSignature');
+    if(heart) heart.classList.add('show');
   }
 }
 
+/* helper to keep text safe when inserting as HTML for stored view */
+function escapeHtml(unsafe){
+  return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
 /* ------------------------------
-   Glow + Hand-drawn draw-on heart (D4 with H2-C style, thickness T2)
-   - Append an SVG inside a wrapper in the message container
-   - The SVG path will be animated stroke-dashoffset (draw-on)
+   Heart signature reveal + animation (right-aligned)
    ------------------------------ */
-
-function showGlowAndHandDrawnHeart(){
-  const el = document.getElementById('messageBox');
-  // Add glow class
-  el.classList.add('message-glow');
-
-  // Create a wrapper for the heart (position it bottom-right)
-  const heartWrapper = document.createElement('div');
-  heartWrapper.className = 'doodle-heart-wrap';
-  // SVG (hand-drawn doodle path) - path sized to viewBox 0 0 120 120
-  heartWrapper.innerHTML = `
-    <svg class="doodle-heart" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path id="doodlePath" d="M60 102 C20 78, 6 54, 22 36 C36 20, 56 22, 60 36 C64 22, 84 20, 98 36 C114 54,100 78,60 102 Z"
-        fill="none" stroke="#ff6b81" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  `;
-  // append
-  el.appendChild(heartWrapper);
-
-  // prepare draw animation: compute path length and animate
-  const path = heartWrapper.querySelector('#doodlePath');
-  if (path) {
-    const len = path.getTotalLength();
-    // setup starting values
-    path.style.strokeDasharray = len;
-    path.style.strokeDashoffset = len;
-    path.style.transition = 'stroke-dashoffset 1.6s ease-in-out';
-    // trigger a tiny reflow then start
-    requestAnimationFrame(()=> {
-      path.style.strokeDashoffset = '0';
-      // after drawing finishes, do a gentle pop/settle (scale)
-      setTimeout(()=> {
-        heartWrapper.classList.add('doodle-heart-done');
-      }, 1700);
-    });
-  }
+function showHeartSignature(){
+  const heart = document.getElementById('heartSignature');
+  if(!heart) return;
+  // reveal with fade-in
+  heart.classList.add('show');
 }
 
 /* ------------------------------
@@ -212,34 +168,25 @@ function showGlowAndHandDrawnHeart(){
    ------------------------------ */
 const heartsContainer = document.getElementById('hearts');
 let heartCount = 0;
-const maxHearts = 12;      // moderate intensity
+const maxHearts = 12;
 function spawnHeart(){
   if(heartCount >= maxHearts) return;
   heartCount++;
   const heart = document.createElement('div');
   heart.className = 'heart-float';
   heart.textContent = '❤';
-  // random left position
   heart.style.left = (6 + Math.random()*88) + '%';
   heart.style.fontSize = (14 + Math.random()*22) + 'px';
   heart.style.animationDuration = (5 + Math.random()*5) + 's';
   heartsContainer.appendChild(heart);
-  // remove after animation
-  setTimeout(()=> {
-    heart.remove(); heartCount--;
-  }, 9000);
+  setTimeout(()=> { heart.remove(); heartCount--; }, 9000);
 }
-// spawn a heart every 700ms until maxHearts
 const heartInterval = setInterval(()=> spawnHeart(), 700);
 
 /* ------------------------------
-   Accessibility / on-load defaults
+   On-load defaults
    ------------------------------ */
 document.addEventListener('DOMContentLoaded', ()=> {
-  // Show home panel initially
   showPanel('home');
-
-  // spawn a few hearts already for nicer initial look:
   for(let i=0;i<4;i++) setTimeout(spawnHeart, i*220);
 });
-
