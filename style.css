@@ -201,13 +201,17 @@ body{
 }
 
 @media (min-width:981px){
-  .message-wrapper{
-    align-items: center;   /* Reset from flex-start to center */
-    justify-content: flex-start;
+  /* Center the message container properly */
+  .message-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* centers horizontally */
   }
 
-  .letter-card{
-    margin: 0 auto;        /* Center on desktop */
+  /* Center the message card within it */
+  .message-inner {
+    margin: 0 auto;       /* forces center in flexbox */
+    text-align: left;     /* keep text normal */
   }
 }
 
@@ -218,6 +222,7 @@ body{
   .message-inner{ font-size:16px; padding:20px }
   .signature-heart{ width:56px; height:56px; }
 }
+
 
 
 
