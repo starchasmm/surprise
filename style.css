@@ -219,7 +219,7 @@ body{
 
   .message-inner {
     margin: 0 auto;
-    text-align: left;
+    text-align: center;
   }
 }
 
@@ -228,6 +228,7 @@ body{
   text-indent: 0;    /* no paragraph indent */
   text-align: left;  /* keep normal left text alignment */
 }
+
 
 
 
