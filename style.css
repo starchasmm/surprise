@@ -196,7 +196,7 @@ body{
   .title{ font-size:32px; text-align:center; }
   .note-placeholder{ font-size:18px; text-align:center; }
   .message-inner{ width:94%; font-size:18px; margin: 0;}
-  .message-wrapper{ justify-content:center; align-items:center !important; flex-direction:column; gap:12px; text-align: left; }
+  .message-wrapper{ justify-content:center; align-items:center; flex-direction:column; gap:12px; text-align: left; }
   .heart-signature{ justify-content:center; margin-right:0; width: 100%; }
 }
 
@@ -205,7 +205,7 @@ body{
   .title{ font-size:26px }
   .playlist-container{ height:220px; }
   .note-placeholder{ font-size:16px; }
-  .message-inner{ font-size:16px; padding:20px }
+  .message-inner{ font-size:16px; padding:28px 32px }
   .signature-heart{ width:56px; height:56px; }
 }
 
@@ -222,6 +222,14 @@ body{
     text-align: left;
   }
 }
+
+.message-text p {
+  margin-left: 0;    /* remove any left gap */
+  text-indent: 0;    /* no paragraph indent */
+  text-align: left;  /* keep normal left text alignment */
+}
+
+
 
 
 
