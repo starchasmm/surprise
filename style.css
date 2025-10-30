@@ -201,19 +201,15 @@ body{
 }
 
 @media (min-width:981px){
-  .wrap {
-    justify-content: center;
-    align-items: flex-start;
-    margin: 0 auto;
-    padding: 28px;
+  .message-wrapper{
+    align-items: center;   /* Reset from flex-start to center */
+    justify-content: flex-start;
   }
 
-  .letter-card {
-    margin: 0 auto;
-    justify-content: center;
+  .letter-card{
+    margin: 0 auto;        /* Center on desktop */
   }
 }
-
 
 @media (max-width:520px){
   .title{ font-size:26px }
@@ -222,5 +218,6 @@ body{
   .message-inner{ font-size:16px; padding:20px }
   .signature-heart{ width:56px; height:56px; }
 }
+
 
 
