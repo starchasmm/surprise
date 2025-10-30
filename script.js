@@ -8,12 +8,7 @@ const notes = [
     "I'll always be here cheering for you!",
     "But, can I borrow some of your time?",
     "This won't take long..",
-    "I'm sorry to spring this up on you, but...",
-    "I'm still into you..",
-    "You've always been lingering in my mind..",
-    "I know it's a long shot, but I'm willing to wait..",
-    "I've realized this recently, for the past couple of months.",
-    "But, can I borrow some of your time?",
+    "Please press the Message tab."
 ];
 
 let currentIndex = 0;
@@ -197,3 +192,4 @@ document.addEventListener('DOMContentLoaded', ()=> {
   showPanel('home');
   for(let i=0;i<4;i++) setTimeout(spawnHeart, i*220);
 });
+
