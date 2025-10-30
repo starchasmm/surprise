@@ -195,9 +195,9 @@ body{
   .controls{ order:4; display:flex; justify-content:center; width:100%;}
   .title{ font-size:32px; text-align:center; }
   .note-placeholder{ font-size:18px; text-align:center; }
-  .message-inner{ width:94%; font-size:18px; }
-  .message-wrapper{ justify-content:center; align-items:flex-start; flex-direction:column; gap:12px; }
-  .heart-signature{ justify-content:center; margin-right:0; }
+  .message-inner{ width:94%; font-size:18px; margin: 0;}
+  .message-wrapper{ justify-content:center; align-items:center !important; flex-direction:column; gap:12px; text-align: left; }
+  .heart-signature{ justify-content:center; margin-right:0; width: 100%; }
 }
 
 @media (max-width:520px){
@@ -207,3 +207,4 @@ body{
   .message-inner{ font-size:16px; padding:20px }
   .signature-heart{ width:56px; height:56px; }
 }
+
