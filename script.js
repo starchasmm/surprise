@@ -2,11 +2,18 @@
    Notes (sequential)
    =========================== */
 const notes = [
-  "I don’t need you to take my love or even return it.",
-  "I just want you to know it exists — quietly, stubbornly, still beating for you.",
-  "If it ever burdens you, you can forget it.",
-  "If it ever warms you, then that’s enough for me.",
-  "I’ll keep loving you, not to be chosen, but because loving you feels like the most honest thing I’ve ever done."
+  "Happy Birthday, Marj!",
+    "I hope for the best from you!",
+    "Keep pushing to realize your dreams!",
+    "I'll always be here cheering for you!",
+    "But, can I borrow some of your time?",
+    "This won't take long..",
+    "I'm sorry to spring this up on you, but...",
+    "I'm still into you..",
+    "You've always been lingering in my mind..",
+    "I know it's a long shot, but I'm willing to wait..",
+    "I've realized this recently, for the past couple of months.",
+    "But, can I borrow some of your time?",
 ];
 
 let currentIndex = 0;
